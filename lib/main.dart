@@ -1,11 +1,44 @@
 import 'dart:async';
 import 'dart:core';
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 
 void main() => runApp(new MyApp());
+Future<Post> fetchPost() async {
+  final response =
+  await get('https://jsonplaceholder.typicode.com/posts/1');
+
+  if (response.statusCode == 200) {
+    // If the call to the server was successful, parse the JSON
+    return Post.fromJson(json.decode(response.body));
+  } else {
+    // If that call was not successful, throw an error.
+    throw Exception('Failed to load post');
+  }
+}
+
+class Post {
+  final int userId;
+  final int id;
+  final String title;
+  final String body;
+
+  Post({this.userId, this.id, this.title, this.body});
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
+      body: json['body'],
+    );
+  }
+}
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -29,8 +62,27 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class LeaderBoard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("LeaderBoard"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Go back!'),
+        ),
+      ),
+    );
+  }
+}
+
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+    MyHomePage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -73,17 +125,13 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _udid = udid;
     });
-    
-
-    fetchFriends().then((activeFriends) {
-      _friends = activeFriends.toString();
-     });
   }
 
 
   Future<Response> fetchFriends() {
     return get('https://jsonplaceholder.typicode.com/posts/1');
   }
+
 
   String getRank(int spentDays) {
 
@@ -169,11 +217,25 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: Theme.of(context).textTheme.display2,
                 ),
                 new Text(
-                  'Dein Rang: $_rank $_udid $_friends',
+                  'Dein Rang: $_rank',
                   style: Theme.of(context).textTheme.display1,
+                ),
+                FutureBuilder<Post>(
+                  future: fetchPost(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(snapshot.data.title);
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+
+                    // By default, show a loading spinner
+                    return CircularProgressIndicator();
+                  },
                 ),
               ],
             ),
+
           ),
           new Card(
             //       child: new AssetImage('res/pics/wiesnplan-2018.jpg'),
@@ -181,12 +243,13 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const ListTile(
-                  leading: const Icon(Icons.album),
+                  leading: const Icon(Icons.place, color: Colors.green,),
+                //  leading: const Icon(Icons.place, color: Colors.red,),
+
                   title: const Text('Anwesend'),
-                  subtitle: const Text(
-                      'LISTE DER ddd.'),
 
                 ),
+                new Text('$_udid $_friends'),
                 new ButtonTheme.bar(
                   // make buttons use the appropriate styles for cards
                   child: new ButtonBar(
@@ -198,10 +261,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       ),
                       new FlatButton(
-                        child: const Text('HI!'),
-                        onPressed: () {
-                          /* ... */
-                        },
+                        child: const Text('LeaderBoard'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => LeaderBoard()),
+                            );
+                          }
+
                       ),
                     ],
                   ),
