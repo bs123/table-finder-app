@@ -3,6 +3,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 
 void main() => runApp(new MyApp());
 
@@ -47,8 +48,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  //String _udid = async.await FlutterUdid.consistentUdid;
+  String _udid = 'Unknown';
   int _counter = 0;
   String _rank = "";
+  String _friends =  "";
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  Future<void> initPlatformState() async {
+    String udid;
+    try {
+      udid = await FlutterUdid.udid;
+    } on Exception {
+      udid = 'Failed to get UDID.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _udid = udid;
+    });
+    
+
+    fetchFriends().then((activeFriends) {
+      _friends = activeFriends.toString();
+     });
+  }
+
 
   Future<Response> fetchFriends() {
     return get('https://jsonplaceholder.typicode.com/posts/1');
@@ -138,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: Theme.of(context).textTheme.display2,
                 ),
                 new Text(
-                  'Dein Rang: $_rank',
+                  'Dein Rang: $_rank $_udid $_friends',
                   style: Theme.of(context).textTheme.display1,
                 ),
               ],
