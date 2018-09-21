@@ -165,7 +165,7 @@ class PostsList extends StatelessWidget {
       ),
       itemCount: posts.length,
       itemBuilder: (context, index) {
-        return Text(Helper.getRank(posts[index].daysPresent));
+        return Text(Helper.getRank(posts[index].daysPresent) + ' ' + posts[index].name,  style: Theme.of(context).textTheme.display2,);
       },
     );
   }
@@ -215,10 +215,6 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _udid = udid;
     });
-  }
-
-  Future<Response> fetchFriends() {
-    return get('https://jsonplaceholder.typicode.com/posts/');
   }
 
   void _incrementCounter() {
