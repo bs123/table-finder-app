@@ -44,6 +44,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String _title = "Leutnant"; // TODO enum
 
   void _incrementCounter() {
     setState(() {
@@ -70,7 +71,15 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: new Text(widget.title),
       ),
-      body: new Center(
+      body: ListView(
+        children: [
+          Image.asset(
+            'images/wiesnplan-2018.jpg',
+            height: 240.0,
+            fit: BoxFit.cover,
+          ),
+
+/*      new Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: new Column(
@@ -87,17 +96,63 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             new Text(
-              'You have pushed the button this many times:',
+              'Wiesnbesuche 2018:',
+              style: Theme.of(context).textTheme.display3,
             ),
             new Text(
               '$_counter',
+              style: Theme.of(context).textTheme.display3,
+            ),
+            new Text(
+              'Dein Rang:',
+              style: Theme.of(context).textTheme.display1,
+            ),
+            new Text(
+              '$_title',
               style: Theme.of(context).textTheme.display1,
             ),
           ],
+
         ),
+      )*/
+
+          new Card(
+            //       child: new AssetImage('res/pics/wiesnplan-2018.jpg'),
+            child: new Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const ListTile(
+                  leading: const Icon(Icons.album),
+                  title: const Text('The Enchandddddted Nightingale'),
+                  subtitle: const Text(
+                      'Music by Julie Gable. Lyrics by Sidney Stein.'),
+                ),
+                new ButtonTheme.bar(
+                  // make buttons use the appropriate styles for cards
+                  child: new ButtonBar(
+                    children: <Widget>[
+                      new FlatButton(
+                        child: const Text('BUY TICKETS'),
+                        onPressed: () {
+                          /* ... */
+                        },
+                      ),
+                      new FlatButton(
+                        child: const Text('LISTEN'),
+                        onPressed: () {
+                          /* ... */
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: _incrementCounter,
