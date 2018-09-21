@@ -7,3 +7,9 @@
 build/
 
 .flutter-plugins
+*.iml
+.gradle
+/local.properties
+.idea/
+/captures
+.externalNativeBuild
