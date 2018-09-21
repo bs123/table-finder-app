@@ -17,7 +17,8 @@ List<Post> parsePosts(String responseBody) {
 
 Future<List<Post>> fetchPost() async {
   //final response = await get('http://104.248.136.133:3030/beerChallenge/');
-  final response = await get('http://10.88.103.176:8080/beerChallenge/');
+  // final response = await get('http://10.88.103.176:8080/beerChallenge'); // jan
+  final response = await get('http://104.248.136.133:3030/beerChallenge');
   return parsePosts(response.body);
 }
 
@@ -86,7 +87,7 @@ class Helper {
 }
 
 class Post {
-  final int id;
+  final String id;
   final int date;
   final String name;
   final int daysPresent;
@@ -268,11 +269,11 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 new Text(
-                  'Wiesnbesuche 2018: $_counter',
+                  '$_counter Wiesnbesuche 2018',
                   style: Theme.of(context).textTheme.display2,
                 ),
                 new Text(
-                  'Dein Rang: $_rank',
+                  'Du bist im Rang eines: $_rank',
                   style: Theme.of(context).textTheme.display1,
                 ),
               ],
