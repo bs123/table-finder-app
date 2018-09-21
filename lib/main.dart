@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -47,11 +48,42 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String _title = "Leutnant";
+  String _rank = "";
 
   Future<Response> fetchFriends() {
     return get('https://jsonplaceholder.typicode.com/posts/1');
   }
+
+  String getRank(int spentDays) {
+
+  String rank = "";
+
+  switch (spentDays) {
+  case 1: rank = "Private"; break;
+  case 2: rank = "Private"; break;
+
+  case 3: rank = "Fähnrich"; break;
+  case 4: rank = "Fähnrich"; break;
+
+  case 5: rank = "Leutnant"; break;
+  case 6: rank = "Leutnant"; break;
+  case 7: rank = "Leutnant"; break;
+
+  case 8: rank = "Commander"; break;
+  case 9: rank = "Commander"; break;
+  case 10: rank = "Commander"; break;
+
+  case 11: rank = "Captain"; break;
+  case 12: rank = "Captain"; break;
+  case 13: rank = "Captain"; break;
+  case 14: rank = "Captain"; break;
+
+  case 15: rank = "Admiral"; break;
+  case 16: rank = "Admiral"; break;
+  }
+
+  return rank;
+}
 
   void _incrementCounter() {
     setState(() {
@@ -61,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      _rank = getRank(_counter);
     });
   }
 
@@ -105,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: Theme.of(context).textTheme.display2,
                 ),
                 new Text(
-                  'Dein Rang: $_title',
+                  'Dein Rang: $_rank',
                   style: Theme.of(context).textTheme.display1,
                 ),
               ],
@@ -121,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: const Text('Anwesend'),
                   subtitle: const Text(
                       'LISTE DER ddd.'),
+
                 ),
                 new ButtonTheme.bar(
                   // make buttons use the appropriate styles for cards
