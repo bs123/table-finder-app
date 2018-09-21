@@ -156,16 +156,13 @@ class PostsList extends StatelessWidget {
   final List<Post> posts;
 
   PostsList({Key key, this.posts}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-      ),
+      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1, childAspectRatio: 3.3, ),
       itemCount: posts.length,
       itemBuilder: (context, index) {
-        return Text(Helper.getRank(posts[index].daysPresent) + ' ' + posts[index].name,  style: Theme.of(context).textTheme.display2,);
+        return Text(Helper.getRank(posts[index].daysPresent) + ' ' + posts[index].name + ' war ' + posts[index].daysPresent.toString() + ' Tag(e) anwesend.', style: Theme.of(context).textTheme.display2,);
       },
     );
   }

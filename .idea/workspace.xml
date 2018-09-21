@@ -23,8 +23,8 @@
       <file leaf-file-name="main.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/main.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="217" column="3" lean-forward="false" selection-start-line="217" selection-start-column="3" selection-end-line="217" selection-end-column="3" />
+            <state relative-caret-position="266">
+              <caret line="164" column="145" lean-forward="false" selection-start-line="164" selection-start-column="145" selection-end-line="164" selection-end-column="145" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -108,8 +108,8 @@
       <find>Text</find>
       <find>getR</find>
       <find>getRank</find>
-      <find>day</find>
       <find>asy</find>
+      <find>day</find>
     </findStrings>
     <replaceStrings>
       <replace>posts</replace>
@@ -485,6 +485,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
           <caret line="134" column="2" lean-forward="false" selection-start-line="134" selection-start-column="2" selection-end-line="134" selection-end-column="2" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -544,8 +545,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/main.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="217" column="3" lean-forward="false" selection-start-line="217" selection-start-column="3" selection-end-line="217" selection-end-column="3" />
+        <state relative-caret-position="266">
+          <caret line="164" column="145" lean-forward="false" selection-start-line="164" selection-start-column="145" selection-end-line="164" selection-end-column="145" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
