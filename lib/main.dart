@@ -9,16 +9,16 @@ import 'package:flutter_udid/flutter_udid.dart';
 
 void main() => runApp(new MyApp());
 
-Future<Post> fetchPost() async {
-  final response = await get('https://jsonplaceholder.typicode.com/posts/1');
+List<Post> parsePosts(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
 
-  if (response.statusCode == 200) {
-    // If the call to the server was successful, parse the JSON
-    return Post.fromJson(json.decode(response.body));
-  } else {
-    // If that call was not successful, throw an error.
-    throw Exception('Failed to load post');
-  }
+  return parsed.map<Post>((json) => Post.fromJson(json)).toList();
+}
+
+Future<List<Post>> fetchPost() async {
+  final response = await get('https://jsonplaceholder.typicode.com/posts/');
+
+  return parsePosts(response.body);
 }
 
 class Post {
@@ -62,83 +62,46 @@ class MyApp extends StatelessWidget {
 }
 
 class LeaderBoard extends StatelessWidget {
-  /* Widget bodyData() =>
-      DataTable(
-          onSelectAll: (b) {},
-          sortColumnIndex: 1,
-          sortAscending: true,
-          columns: <DataColumn>[
-
-            DataColumn(
-              label: Text("First Name"),
-              numeric: false,
-              onSort: (i, b) {
-                print("$i $b");
-                setState(() {
-                  names.sort((a, b) => a.firstName.compareTo(b.firstName));
-                });
-              },
-              tooltip: "To display first name of the Name",
-            ),
-            DataColumn(
-              label: Text("Last Name"),
-              numeric: false,
-              onSort: (i, b) {
-                print("$i $b");
-                setState(() {
-                  names.sort((a, b) => a.lastName.compareTo(b.lastName));
-                });
-              },
-              tooltip: "To display last name of the Name",
-            ),
-          ],
-          rows: names
-              .map(
-                (name) =>
-                DataRow(
-                  cells: [
-                    DataCell(
-                      Text(name.firstName),
-                      showEditIcon: false,
-                      placeholder: false,
-                    ),
-                    DataCell(
-                      Text(name.lastName),
-                      showEditIcon: false,
-                      placeholder: false,
-                    )
-                  ],
-                ),
-          )
-              .toList()); */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("LeaderBoard"),
-      ),
-      body: Center(
-        child: FutureBuilder<Post>(
-          future: fetchPost(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data.body);
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-
-            // By default, show a loading spinner
-            return CircularProgressIndicator();
-          },
+        appBar: AppBar(
+          title: Text("LeaderBoard"),
         ),
+        body: Center(
+          child: FutureBuilder<List<Post>>(
+            future: fetchPost(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return PostsList(posts: snapshot.data);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
 
-        //  child: RaisedButton(
-        //       onPressed: () {
-        //        Navigator.pop(context);
-        //     },
-        ///    child: Text('Go back!'),
+              /*snapshot.hasData
+              ? PostsList(posts: snapshot.data)
+              : Center(child: CircularProgressIndicator()); */
+            },
+          ),
+        ));
+  }
+}
+
+class PostsList extends StatelessWidget {
+  final List<Post> posts;
+
+  PostsList({Key key, this.posts}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 1,
       ),
+      itemCount: posts.length,
+      itemBuilder: (context, index) {
+        return Text(posts[index].title);
+      },
     );
   }
 }
