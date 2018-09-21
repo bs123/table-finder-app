@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 void main() => runApp(new MyApp());
 
@@ -44,7 +47,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String _title = "Leutnant"; // TODO enum
+  String _title = "Leutnant";
+
+  Future<Response> fetchFriends() {
+    return get('https://jsonplaceholder.typicode.com/posts/1');
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -104,11 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          Image.asset(
-            'images/wiesnplan-2018.jpg',
-            height: 540.0,
-            fit: BoxFit.cover,
-          ),
           new Card(
             //       child: new AssetImage('res/pics/wiesnplan-2018.jpg'),
             child: new Column(
@@ -116,22 +118,22 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 const ListTile(
                   leading: const Icon(Icons.album),
-                  title: const Text('The Enchandddddted Nightingale'),
+                  title: const Text('Anwesend'),
                   subtitle: const Text(
-                      'Music by Julie Gable. Lyrics by Sidney Stein.'),
+                      'LISTE DER ddd.'),
                 ),
                 new ButtonTheme.bar(
                   // make buttons use the appropriate styles for cards
                   child: new ButtonBar(
                     children: <Widget>[
                       new FlatButton(
-                        child: const Text('BUY TICKETS'),
+                        child: const Text('Aktualiseren'),
                         onPressed: () {
                           /* ... */
                         },
                       ),
                       new FlatButton(
-                        child: const Text('LISTEN'),
+                        child: const Text('HI!'),
                         onPressed: () {
                           /* ... */
                         },
@@ -141,6 +143,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+          ),
+          Image.asset(
+            'images/wiesnplan-2018.jpg',
+            height: 540.0,
+            fit: BoxFit.cover,
           ),
         ],
       ),
