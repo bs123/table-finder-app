@@ -16,25 +16,89 @@ List<Post> parsePosts(String responseBody) {
 }
 
 Future<List<Post>> fetchPost() async {
-  final response = await get('https://jsonplaceholder.typicode.com/posts/');
-
+  //final response = await get('http://104.248.136.133:3030/beerChallenge/');
+  final response = await get('http://10.88.103.176:8080/beerChallenge/');
   return parsePosts(response.body);
 }
 
-class Post {
-  final int userId;
-  final int id;
-  final String title;
-  final String body;
+class Helper {
+  static String getRank(int spentDays) {
+    String rank = "";
 
-  Post({this.userId, this.id, this.title, this.body});
+    switch (spentDays) {
+      case 1:
+        rank = "Private";
+        break;
+      case 2:
+        rank = "Private";
+        break;
+
+      case 3:
+        rank = "Fähnrich";
+        break;
+      case 4:
+        rank = "Fähnrich";
+        break;
+
+      case 5:
+        rank = "Leutnant";
+        break;
+      case 6:
+        rank = "Leutnant";
+        break;
+      case 7:
+        rank = "Leutnant";
+        break;
+
+      case 8:
+        rank = "Commander";
+        break;
+      case 9:
+        rank = "Commander";
+        break;
+      case 10:
+        rank = "Commander";
+        break;
+
+      case 11:
+        rank = "Captain";
+        break;
+      case 12:
+        rank = "Captain";
+        break;
+      case 13:
+        rank = "Captain";
+        break;
+      case 14:
+        rank = "Captain";
+        break;
+
+      case 15:
+        rank = "Admiral";
+        break;
+      case 16:
+        rank = "Admiral";
+        break;
+    }
+
+    return rank;
+  }
+}
+
+class Post {
+  final int id;
+  final int date;
+  final String name;
+  final int daysPresent;
+
+  Post({this.id, this.date, this.name, this.daysPresent});
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-      body: json['body'],
+      id: json['_id'],
+      date: json['date'],
+      name: json['name'],
+      daysPresent: json['daysPresent'],
     );
   }
 }
@@ -100,7 +164,7 @@ class PostsList extends StatelessWidget {
       ),
       itemCount: posts.length,
       itemBuilder: (context, index) {
-        return Text(posts[index].title);
+        return Text(Helper.getRank(posts[index].daysPresent));
       },
     );
   }
@@ -156,68 +220,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return get('https://jsonplaceholder.typicode.com/posts/');
   }
 
-  String getRank(int spentDays) {
-    String rank = "";
-
-    switch (spentDays) {
-      case 1:
-        rank = "Private";
-        break;
-      case 2:
-        rank = "Private";
-        break;
-
-      case 3:
-        rank = "Fähnrich";
-        break;
-      case 4:
-        rank = "Fähnrich";
-        break;
-
-      case 5:
-        rank = "Leutnant";
-        break;
-      case 6:
-        rank = "Leutnant";
-        break;
-      case 7:
-        rank = "Leutnant";
-        break;
-
-      case 8:
-        rank = "Commander";
-        break;
-      case 9:
-        rank = "Commander";
-        break;
-      case 10:
-        rank = "Commander";
-        break;
-
-      case 11:
-        rank = "Captain";
-        break;
-      case 12:
-        rank = "Captain";
-        break;
-      case 13:
-        rank = "Captain";
-        break;
-      case 14:
-        rank = "Captain";
-        break;
-
-      case 15:
-        rank = "Admiral";
-        break;
-      case 16:
-        rank = "Admiral";
-        break;
-    }
-
-    return rank;
-  }
-
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -226,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
-      _rank = getRank(_counter);
+      _rank = Helper.getRank(_counter);
     });
   }
 
